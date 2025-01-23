@@ -11,6 +11,6 @@ public class DataEquipment : ScriptableObject
     public int Damage;
     public Texture2D Icone;
     public int Durability;
-    public Color Rarity;
+    public Color Rarity = Color.gray;
 
 }

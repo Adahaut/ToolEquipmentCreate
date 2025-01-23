@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 34e785717d5f97c41b6f7d6c9def2deb, type: 3}
-  m_Name: z
+  m_Name: Mdrrrrr
   m_EditorClassIdentifier: 
-  Name: A
-  Damage: 133
-  Icone: {fileID: 0}
-  Durability: 3
-  Rarity: {r: 0, g: 0, b: 0, a: 0}
+  Name: arrreeettteeeeee
+  Damage: 4
+  Icone: {fileID: 2800000, guid: dbc3239e5b60d5340aceca490dda074e, type: 3}
+  Durability: 133
+  Rarity: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}

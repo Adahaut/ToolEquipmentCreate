@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 34e785717d5f97c41b6f7d6c9def2deb, type: 3}
-  m_Name: AHHHHHHHHH
+  m_Name: Rifle
   m_EditorClassIdentifier: 
-  Name: 4545
-  Damage: 1
-  Icone: {fileID: 0}
-  Durability: 3
-  Rarity: {r: 0.30817598, g: 0.20641974, b: 0.20641974, a: 0}
+  Name: Rifle
+  Damage: 8
+  Icone: {fileID: 2800000, guid: 72e32b420da72d845ba60bca6c1cc3da, type: 3}
+  Durability: 50
+  Rarity: {r: 1, g: 0, b: 0, a: 0}

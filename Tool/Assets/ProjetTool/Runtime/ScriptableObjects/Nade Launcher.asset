@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 34e785717d5f97c41b6f7d6c9def2deb, type: 3}
-  m_Name: ad
+  m_Name: Nade Launcher
   m_EditorClassIdentifier: 
-  Name: adzda
-  Damage: 45
-  Icone: {fileID: 10305, guid: 0000000000000000f000000000000000, type: 0}
-  Durability: 5
-  Rarity: {r: 0.9559748, g: 0.18337865, b: 0.18337865, a: 0}
+  Name: Nade Launcher
+  Damage: 50
+  Icone: {fileID: 2800000, guid: 5d31da03d56686d458915951215e378f, type: 3}
+  Durability: 3
+  Rarity: {r: 0, g: 0.78550243, b: 1, a: 0}
