@@ -6,14 +6,13 @@ using UnityEngine;
 
 public class SOCreateWindow : EditorWindow
 {
-    private const string searchFolder = "Assets/ProjetTool/Runtime/ScriptableObjects"; // Dossier où chercher les ScriptableObjects
+    private const string searchFolder = "Assets/ProjetTool/Runtime/ScriptableObjects"; 
 
-    private DataEquipment selectedEquipment;      // Instance actuellement sélectionnée
-    private DataEquipment editingEquipmentCopy;  // Copie temporaire pour éditer
-    private string[] equipmentOptions;           // Liste des noms des ScriptableObjects disponibles
-    private int selectedIndex = 0;               // Index sélectionné dans le dropdown
+    private DataEquipment selectedEquipment;      
+    private DataEquipment editingEquipmentCopy;  
+    private string[] equipmentOptions;           
+    private int selectedIndex = 0;               
 
-    // Dictionnaire pour dessiner les champs
     private Dictionary<Type, Action<object, FieldInfo>> drawer;
 
     [MenuItem("Tools/CreateEquipment")]
@@ -25,10 +24,8 @@ public class SOCreateWindow : EditorWindow
 
     private void OnEnable()
     {
-        // Charger la liste des ScriptableObjects existants
         LoadExistingEquipments();
 
-        // Initialiser le drawer
         drawer = new Dictionary<Type, Action<object, FieldInfo>>()
         {
             { typeof(string), (obj, field) =>
@@ -64,57 +61,47 @@ public class SOCreateWindow : EditorWindow
                 }
             }
         };
-
-        // Si aucun équipement n'est sélectionné, en créer un par défaut
-        if (selectedEquipment == null && equipmentOptions.Length == 0)
-        {
-            CreateNewEquipment();
-        }
+        
+        CreateNewEquipment();
     }
 
     private void LoadExistingEquipments()
     {
-        // Trouver les GUID uniquement dans le dossier spécifié
         string[] guids = AssetDatabase.FindAssets("t:DataEquipment", new[] { searchFolder });
 
-        // Créer une liste temporaire pour stocker les noms des équipements
-        List<string> options = new List<string> { "Create New Equipment" }; // Option par défaut
-
-        // Charger chaque ScriptableObject à partir des GUID trouvés
+        List<string> options = new List<string> { "Create New Equipment" }; 
         foreach (string guid in guids)
         {
             string path = AssetDatabase.GUIDToAssetPath(guid);
             DataEquipment equipment = AssetDatabase.LoadAssetAtPath<DataEquipment>(path);
 
-            if (equipment != null) // Vérifier que l'objet a été chargé avec succès
+            if (equipment != null) 
             {
                 options.Add(equipment.name);
             }
         }
 
-        // Stocker les noms des équipements dans l'array equipmentOptions
+        
         equipmentOptions = options.ToArray();
 
-        // Réinitialiser l'index et l'objet sélectionné
         selectedIndex = 0;
-        selectedEquipment = null; // Par défaut, aucune sélection
+        selectedEquipment = null; 
     }
 
     private void CreateNewEquipment()
     {
         selectedEquipment = CreateInstance<DataEquipment>();
-        editingEquipmentCopy = Instantiate(selectedEquipment); // Créer une copie temporaire
+        editingEquipmentCopy = Instantiate(selectedEquipment); 
     }
 
     private void StartEditingEquipment(DataEquipment equipment)
     {
         selectedEquipment = equipment;
-        editingEquipmentCopy = Instantiate(selectedEquipment); // Créer une copie temporaire
+        editingEquipmentCopy = Instantiate(selectedEquipment);
     }
 
     public void OnGUI()
     {
-        // Styles
         GUIStyle titleStyle = new GUIStyle
         {
             alignment = TextAnchor.UpperLeft,
@@ -128,8 +115,7 @@ public class SOCreateWindow : EditorWindow
             hover = { textColor = Color.green }
         };
 
-        // Dropdown pour sélectionner ou créer un ScriptableObject
-        GUILayout.Label("Select or Create Equipment", titleStyle);
+        GUILayout.Label("Select an equipment to modify or create a new", titleStyle);
         GUILayout.Space(10);
 
         int newIndex = EditorGUILayout.Popup("Equipment", selectedIndex, equipmentOptions);
@@ -139,12 +125,10 @@ public class SOCreateWindow : EditorWindow
 
             if (selectedIndex == 0)
             {
-                // Option "Create New Equipment"
                 CreateNewEquipment();
             }
             else
             {
-                // Charger un équipement existant
                 string selectedName = equipmentOptions[selectedIndex];
                 string[] guids = AssetDatabase.FindAssets($"t:DataEquipment {selectedName}", new[] { searchFolder });
                 if (guids.Length > 0)
@@ -156,7 +140,6 @@ public class SOCreateWindow : EditorWindow
             }
         }
 
-        // Modification de l'équipement sélectionné
         if (editingEquipmentCopy != null)
         {
             Type t = typeof(DataEquipment);
@@ -179,20 +162,19 @@ public class SOCreateWindow : EditorWindow
                 GUILayout.Space(5);
             }
 
-            // Bouton pour sauvegarder l'équipement
             GUILayout.Space(20);
             if (GUILayout.Button("Save Equipment", buttonStyle, GUILayout.Height(50)))
             {
                 SaveEquipment();
             }
         }
+        EditorGUILayout.HelpBox("Create equipment only in the folder : Runtime/ScriptableObjects",MessageType.Warning);
     }
 
     private void SaveEquipment()
     {
         if (selectedEquipment == null || editingEquipmentCopy == null) return;
 
-        // Copier les valeurs de la copie temporaire dans l'objet sélectionné
         Type t = typeof(DataEquipment);
         BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
 
@@ -202,7 +184,6 @@ public class SOCreateWindow : EditorWindow
             field.SetValue(selectedEquipment, value);
         }
 
-        // Si l'équipement est nouveau, demander où le sauvegarder
         if (!AssetDatabase.Contains(selectedEquipment))
         {
             string path = EditorUtility.SaveFilePanelInProject("Save Equipment", "NewEquipment", "asset", $"Save the Equipment in {searchFolder}");
@@ -212,7 +193,6 @@ public class SOCreateWindow : EditorWindow
             }
         }
 
-        // Sauvegarder les changements
         EditorUtility.SetDirty(selectedEquipment);
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
