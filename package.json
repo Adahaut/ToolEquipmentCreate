@@ -1,0 +1,8 @@
+{
+  "name": "com.[malice_studio].[create_equipment]",
+  "version": "1.0.0",
+  "displayName": "CreateEquiment",
+  "description": "You can create an equipment in an editor window",
+  "unity": "2022.3.53",
+  "unitRelease": "f1",
+}
